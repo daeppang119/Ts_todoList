@@ -1,11 +1,11 @@
-import GlobalStyle from "./styledComponents/GlobalStyle";
+import Router from "./shared/Router";
+import GlobalStyle from "./styledComponents/Globalstyle";
 
-function App() {
+export default function App() {
   return (
     <>
       <GlobalStyle />
+      <Router />
     </>
   );
 }
-
-export default App;

@@ -17,12 +17,6 @@ body {
     word-break: keep-all;
 }
 
-ul {
-    list-style: none;
-    padding-left: 0;
-    font-size: 0;
-}
-
 button,a  {
     all : unset
 }
