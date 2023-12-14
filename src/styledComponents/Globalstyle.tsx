@@ -12,7 +12,6 @@ body {
     margin: 0;
     padding: 0;
     line-height: 1.3;
-    color : #000;
     letter-spacing: 0.1px;
     word-break: keep-all;
 }
