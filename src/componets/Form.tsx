@@ -3,13 +3,13 @@ import { v4 as uuidv4 } from "uuid";
 import { TodoType } from "../types/todoType";
 import TodoInput from "./TodoInput";
 
-type TodoProps = {
+type FormProps = {
   todos: TodoType[];
   setTodos: React.Dispatch<React.SetStateAction<TodoType[]>>;
 };
 const id = uuidv4();
 
-export default function Form({ todos, setTodos }: TodoProps) {
+export default function Form({ todos, setTodos }: FormProps) {
   const [title, setTitle] = useState<string>("");
   const [contents, setContents] = useState<string>("");
 
