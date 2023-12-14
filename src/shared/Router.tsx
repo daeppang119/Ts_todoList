@@ -1,12 +1,15 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "../pages/Home";
+import Layout from "./Layout";
 
 function Router() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path={"/"} element={<Home />} />
-      </Routes>
+      <Layout>
+        <Routes>
+          <Route path={"/"} element={<Home />} />
+        </Routes>
+      </Layout>
     </BrowserRouter>
   );
 }

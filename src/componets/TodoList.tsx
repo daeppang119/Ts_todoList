@@ -8,18 +8,6 @@ type TodoListProps = {
 
 export default function TodoList({ todos, setTodos, isDone }: TodoListProps) {
   const isDoneBtn = (id: string) => {
-    // const newToDos = todos?.map((item: TodoType) => {
-    //   if (item.id !== id) {
-    //     return item;
-    //   } else {
-    //     return { ...item, isDone: !item.isDone };
-    //   }
-    // }) as TodoType[];
-
-    // setTodos(newToDos);
-    /**
-     * 아래는 참고
-     */
     setTodos((prevTodos) =>
       prevTodos.map((todo) =>
         todo.id === id ? { ...todo, isDone: true } : todo

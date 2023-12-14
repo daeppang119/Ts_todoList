@@ -36,7 +36,7 @@ function Home() {
 
   return (
     <>
-      <Form todos={todos} setTodos={setTodos} />
+      <Form setTodos={setTodos} />
       <div>
         ToDo
         <TodoList todos={todos} setTodos={setTodos} isDone={false} />
