@@ -1,47 +1,19 @@
-import { useState } from "react";
-
 import Form from "../componets/Form";
 import TodoList from "../componets/TodoList";
-import { TodoType } from "../types/todoType";
+import { useAppSelector } from "../redux/hooks";
 
 function Home() {
-  const initalState: TodoType[] = [
-    {
-      id: "1",
-      title: "제목1",
-      contents: "내용1",
-      isDone: false,
-    },
-    {
-      id: "2",
-      title: "제목1",
-      contents: "내용2",
-      isDone: true,
-    },
-    {
-      id: "3",
-      title: "제목1",
-      contents: "내용3",
-      isDone: false,
-    },
-    {
-      id: "4",
-      title: "제목1",
-      contents: "내용4",
-      isDone: false,
-    },
-  ];
-
-  const [todos, setTodos] = useState<TodoType[]>(initalState);
+  const todos = useAppSelector((state) => state.todo.todos);
 
   return (
     <>
-      <Form setTodos={setTodos} />
+      <Form />
       <div>
         ToDo
-        <TodoList todos={todos} setTodos={setTodos} isDone={false} />
+        <TodoList todos={todos} isDone={false} />
+        <hr />
         Done
-        <TodoList todos={todos} setTodos={setTodos} isDone={true} />
+        <TodoList todos={todos} isDone={true} />
       </div>
     </>
   );

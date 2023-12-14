@@ -1,17 +1,15 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
+import { addTodo } from "../redux/modules/todosSlice";
 import { TodoType } from "../types/todoType";
 import TodoInput from "./TodoInput";
 
-type FormProps = {
-  setTodos: React.Dispatch<React.SetStateAction<TodoType[]>>;
-};
-
-const id = uuidv4();
-
-export default function Form({ setTodos }: FormProps) {
+export default function Form() {
   const [title, setTitle] = useState<string>("");
   const [contents, setContents] = useState<string>("");
+
+  const dispatch = useDispatch();
 
   return (
     <form
@@ -19,18 +17,19 @@ export default function Form({ setTodos }: FormProps) {
         e.preventDefault();
 
         const newTodo: TodoType = {
-          id,
+          id: uuidv4(),
           title,
           contents,
           isDone: false,
         };
 
-        setTodos((prevTodos) => [...prevTodos, newTodo]);
+        // setTodos((prevTodos) => [...prevTodos, newTodo]);
+        dispatch(addTodo(newTodo));
       }}
     >
       <TodoInput input={title} setInput={setTitle} />
       <TodoInput input={contents} setInput={setContents} />
-      <button>등록</button>
+      <button type="submit">등록</button>
     </form>
   );
 }

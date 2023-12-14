@@ -1,26 +1,32 @@
+import { useDispatch } from "react-redux";
+import { deletTodo, isDoneTodo } from "../redux/modules/todosSlice";
 import { TodoType } from "../types/todoType";
 
 type TodoListProps = {
   todos: TodoType[];
-  setTodos: React.Dispatch<React.SetStateAction<TodoType[]>>;
+
   isDone: boolean;
 };
 
-export default function TodoList({ todos, setTodos, isDone }: TodoListProps) {
+export default function TodoList({ todos, isDone }: TodoListProps) {
+  const dispatch = useDispatch();
+
   const isDoneBtn = (id: string) => {
-    setTodos((prevTodos) =>
-      prevTodos.map((todo) =>
-        todo.id === id ? { ...todo, isDone: true } : todo
-      )
-    );
+    // setTodos((prevTodos) =>
+    //   prevTodos.map((todo) =>
+    //     todo.id === id ? { ...todo, isDone: true } : todo
+    //   )
+    // );
+    dispatch(isDoneTodo(id));
   };
 
   const deletBtn = (id: string) => {
-    return setTodos(
-      todos.filter((item: TodoType) => {
-        return item.id !== id;
-      })
-    );
+    // return setTodos(
+    //   todos.filter((item: TodoType) => {
+    //     return item.id !== id;
+    //   })
+    // );
+    dispatch(deletTodo(id));
   };
 
   return (
