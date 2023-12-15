@@ -1,15 +1,15 @@
 import { useDispatch } from "react-redux";
+import { useAppSelector } from "../redux/hooks";
 import { deletTodo, isDoneTodo } from "../redux/modules/todosSlice";
 import { TodoType } from "../types/todoType";
 
 type TodoListProps = {
-  todos: TodoType[];
-
   isDone: boolean;
 };
 
-export default function TodoList({ todos, isDone }: TodoListProps) {
+export default function TodoList({ isDone }: TodoListProps) {
   const dispatch = useDispatch();
+  const todos = useAppSelector((state) => state.todo.todos);
 
   const isDoneBtn = (id: string) => {
     // setTodos((prevTodos) =>
