@@ -1,16 +1,17 @@
 import axios from "axios";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { useAppSelector } from "../redux/hooks";
 import { deleteTodo, getTodo, patchTodo } from "../redux/modules/todosSlice";
 import { TodoType } from "../types/todoType";
 
 type TodoListProps = {
-  todos: TodoType[];
   isDone: boolean;
 };
 
-export default function TodoList({ todos, isDone }: TodoListProps) {
+export default function TodoList({ isDone }: TodoListProps) {
   const dispatch = useDispatch();
+  const todos = useAppSelector((state) => state.todo.todos);
 
   const fetchData = async () => {
     try {
@@ -24,17 +25,25 @@ export default function TodoList({ todos, isDone }: TodoListProps) {
   };
 
   const isDoneBtn = async (id: string) => {
-    axios.patch(`${process.env.REACT_APP_JSON_SERVER}/todos/${id}`, {
-      isDone: !isDone,
-    });
+    try {
+      axios.patch(`${process.env.REACT_APP_JSON_SERVER}/todos/${id}`, {
+        isDone: !isDone,
+      });
 
-    dispatch(patchTodo(id));
+      dispatch(patchTodo(id));
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const deletBtn = async (id: string) => {
-    axios.delete(`${process.env.REACT_APP_JSON_SERVER}/todos/${id}`);
+    try {
+      axios.delete(`${process.env.REACT_APP_JSON_SERVER}/todos/${id}`);
 
-    dispatch(deleteTodo(id));
+      dispatch(deleteTodo(id));
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {

@@ -1,10 +1,3 @@
 {
-  "todos": [
-    {
-      "id": "f5f7aa6e-98e1-4169-be7e-804a8d449fd9",
-      "title": "저 질문이 있는데요",
-      "contents": "이건 왜.. 이러는건지 아시는분 있으면 알려주세요",
-      "isDone": false
-    }
-  ]
+  "todos": []
 }
