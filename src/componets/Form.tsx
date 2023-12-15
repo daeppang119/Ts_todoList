@@ -1,8 +1,8 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useAppDispatch } from "../redux/hooks";
-import { getTodo, postTodo } from "../redux/modules/todosSlice";
+import { postTodo } from "../redux/modules/todosSlice";
 import { TodoType } from "../types/todoType";
 import TodoInput from "./TodoInput";
 
@@ -12,36 +12,40 @@ export default function Form() {
 
   const dispatch = useAppDispatch();
 
-  const fetchData = async () => {
+  // const fetchData = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       `${process.env.REACT_APP_JSON_SERVER}/todos`
+  //     );
+  //     dispatch(getTodo(response.data));
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  const onSubmitHandler = async () => {
     try {
-      const response = await axios.get(
-        `${process.env.REACT_APP_JSON_SERVER}/todos`
-      );
-      dispatch(getTodo(response.data));
+      const newTodo: TodoType = {
+        id: uuidv4(),
+        title,
+        contents,
+        isDone: false,
+      };
+
+      await axios.post(`${process.env.REACT_APP_JSON_SERVER}/todos`, newTodo);
+
+      dispatch(postTodo(newTodo));
+
+      setTitle("");
+      setContents("");
     } catch (error) {
       console.log(error);
     }
   };
 
-  const onSubmitHandler = async () => {
-    const newTodo: TodoType = {
-      id: uuidv4(),
-      title,
-      contents,
-      isDone: false,
-    };
-
-    await axios.post(`${process.env.REACT_APP_JSON_SERVER}/todos`, newTodo);
-
-    dispatch(postTodo(newTodo));
-
-    setTitle("");
-    setContents("");
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
 
   return (
     <form
