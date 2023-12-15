@@ -8,12 +8,20 @@ html {
     font-size : 62.5%; // 1rem = 10px
 }
 
+* {
+        box-sizing: border-box;
+    }
+
 body {
-    margin: 0;
-    padding: 0;
-    line-height: 1.3;
-    letter-spacing: 0.1px;
-    word-break: keep-all;
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+            'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+            sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        &::-webkit-scrollbar {
+      display: none;
+    }
 }
 
 button,a  {

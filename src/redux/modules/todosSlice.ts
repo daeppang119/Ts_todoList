@@ -13,23 +13,21 @@ const todosSlice = createSlice({
   name: "todo",
   initialState,
   reducers: {
-    addTodo: (state, action: PayloadAction<TodoType>) => {
-      // setTodos((prevTodos) => [...prevTodos, newTodo]);
+    getTodo: (state, action: PayloadAction<TodoType[]>) => {
+      state.todos = action.payload;
+    },
+
+    postTodo: (state, action: PayloadAction<TodoType>) => {
       state.todos.push(action.payload);
     },
 
-    deletTodo: (state, action: PayloadAction<string>) => {
-      // setTodos(
-      //     todos.filter((item: TodoType) => {
-      //       return item.id !== id;
-      //     })
-      //   );
+    deleteTodo: (state, action: PayloadAction<string>) => {
       state.todos = state.todos.filter((item: TodoType): boolean => {
         return item.id !== action.payload;
       });
     },
 
-    isDoneTodo: (state, action: PayloadAction<string>) => {
+    patchTodo: (state, action: PayloadAction<string>) => {
       //     setTodos((prevTodos) =>
       //   prevTodos.map((todo) =>
       //     todo.id === id ? { ...todo, isDone: true } : todo
@@ -44,7 +42,7 @@ const todosSlice = createSlice({
   },
 });
 
-export const { addTodo, deletTodo, isDoneTodo } = todosSlice.actions;
+export const { getTodo, postTodo, deleteTodo, patchTodo } = todosSlice.actions;
 // export const selectCount = (state: RootState) => state.counter.value
 
 export default todosSlice.reducer;
