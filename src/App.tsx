@@ -1,13 +1,15 @@
-import { ThemeProvider } from "styled-components";
+import { QueryClient, QueryClientProvider } from "react-query";
 import Router from "./shared/Router";
 import GlobalStyle from "./styledComponents/Globalstyle";
-import theme from "./styledComponents/theme/theme";
 
 export default function App() {
+  const queryClient = new QueryClient();
+
   return (
-    <ThemeProvider theme={theme}>
+    <QueryClientProvider client={queryClient}>
+      {/* <ReactQueryDevtools initialIsOpen={true} /> */}
       <GlobalStyle />
       <Router />
-    </ThemeProvider>
+    </QueryClientProvider>
   );
 }

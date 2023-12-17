@@ -1,8 +1,7 @@
-import axios from "axios";
 import { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
-import { useAppDispatch } from "../redux/hooks";
-import { postTodo } from "../redux/modules/todosSlice";
+import { useMutation, useQueryClient } from "react-query";
+import { postTodo } from "../api/todos";
+// import { postTodo } from "../redux/modules/todosSlice";
 import { TodoType } from "../types/todoType";
 import TodoInput from "./TodoInput";
 
@@ -10,31 +9,27 @@ export default function Form() {
   const [title, setTitle] = useState<string>("");
   const [contents, setContents] = useState<string>("");
 
-  const dispatch = useAppDispatch();
+  const queryClient = useQueryClient();
 
-  // const fetchData = async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       `${process.env.REACT_APP_JSON_SERVER}/todos`
-  //     );
-  //     dispatch(getTodo(response.data));
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  const { mutate } = useMutation("todos", postTodo, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("todos");
+    },
+  });
 
   const onSubmitHandler = async () => {
     try {
       const newTodo: TodoType = {
-        id: uuidv4(),
+        id: Date.now(),
         title,
         contents,
         isDone: false,
       };
+      mutate(newTodo);
+      // 함수로만들면 try catch부분 안써도 될거당..!!
+      // await axios.post(`${process.env.REACT_APP_JSON_SERVER}/todos`, newTodo);
 
-      await axios.post(`${process.env.REACT_APP_JSON_SERVER}/todos`, newTodo);
-
-      dispatch(postTodo(newTodo));
+      // dispatch(postTodo(newTodo));
 
       setTitle("");
       setContents("");
@@ -42,10 +37,6 @@ export default function Form() {
       console.log(error);
     }
   };
-
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
 
   return (
     <form

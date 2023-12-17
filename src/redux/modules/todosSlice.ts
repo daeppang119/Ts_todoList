@@ -21,13 +21,13 @@ const todosSlice = createSlice({
       state.todos.push(action.payload);
     },
 
-    deleteTodo: (state, action: PayloadAction<string>) => {
+    deleteTodo: (state, action: PayloadAction<number>) => {
       state.todos = state.todos.filter((item: TodoType): boolean => {
         return item.id !== action.payload;
       });
     },
 
-    patchTodo: (state, action: PayloadAction<string>) => {
+    patchTodo: (state, action: PayloadAction<number>) => {
       //     setTodos((prevTodos) =>
       //   prevTodos.map((todo) =>
       //     todo.id === id ? { ...todo, isDone: true } : todo

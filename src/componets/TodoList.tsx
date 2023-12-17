@@ -1,66 +1,64 @@
-import axios from "axios";
-import { useDispatch } from "react-redux";
-import { deleteTodo, patchTodo } from "../redux/modules/todosSlice";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { deleteTodo, getTodos, patchTodo } from "../api/todos";
 import { TodoType } from "../types/todoType";
 
 type TodoListProps = {
-  todos: TodoType[];
   isDone: boolean;
 };
 
-export default function TodoList({ todos, isDone }: TodoListProps) {
-  const dispatch = useDispatch();
+export default function TodoList({ isDone }: TodoListProps) {
+  const queryClient = useQueryClient();
 
-  // const fetchData = async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       `${process.env.REACT_APP_JSON_SERVER}/todos`
-  //     );
-  //     dispatch(getTodo(response.data));
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  const { isLoading, isError, data } = useQuery("todos", getTodos, {
+    staleTime: Infinity,
+  });
 
-  const isDoneBtn = async (id: string) => {
-    try {
-      axios.patch(`${process.env.REACT_APP_JSON_SERVER}/todos/${id}`, {
-        isDone: !isDone,
-      });
+  // update mutation~~
+  const { mutate: updateMutate } = useMutation("todos", patchTodo, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("todos");
+    },
+  });
 
-      dispatch(patchTodo(id));
-    } catch (error) {
-      console.log(error);
-    }
+  // delete mutation~~
+  const { mutate: deleteMutate } = useMutation("todos", deleteTodo, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("todos");
+    },
+  });
+
+  if (isLoading) {
+    return <div>로딩중...</div>;
+  }
+
+  if (isError) {
+    return <p>오류가 발생하였습니다...!</p>;
+  }
+
+  // 지금 ToDo
+  // 1. update -> isDone 바꿀꺼야!
+  const isDoneBtn = async (todo: TodoType) => {
+    updateMutate(todo);
   };
 
-  const deletBtn = async (id: string) => {
-    try {
-      axios.delete(`${process.env.REACT_APP_JSON_SERVER}/todos/${id}`);
-
-      dispatch(deleteTodo(id));
-    } catch (error) {
-      console.log(error);
-    }
+  // 2. delete -> todo 하나를 지울꺼야!
+  const deletBtn = async (id: number) => {
+    deleteMutate(id);
   };
-
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
 
   return (
     <ul>
-      {todos
-        .filter((todo: TodoType) => {
+      {data
+        ?.filter((todo: TodoType) => {
           return todo.isDone === isDone;
         })
-        .map((todo) => {
+        .map((todo: TodoType) => {
           return (
             <div key={todo.id}>
               <li>
                 <p>{todo.title}</p>
                 <p>{todo.contents}</p>
-                <button onClick={() => isDoneBtn(todo.id)}>
+                <button onClick={() => isDoneBtn(todo)}>
                   {todo.isDone ? "취소" : "완료"}
                 </button>
                 <button
