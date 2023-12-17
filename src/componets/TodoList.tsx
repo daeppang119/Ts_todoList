@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { deleteTodo, getTodos, patchTodo } from "../api/todos";
+import { useCustomModal } from "../hooks/useCustomModal";
 import { TodoType } from "../types/todoType";
 
 type TodoListProps = {
@@ -8,6 +9,7 @@ type TodoListProps = {
 
 export default function TodoList({ isDone }: TodoListProps) {
   const queryClient = useQueryClient();
+  const { handleOpenModal } = useCustomModal();
 
   const { isLoading, isError, data } = useQuery("todos", getTodos, {
     staleTime: Infinity,
@@ -37,13 +39,20 @@ export default function TodoList({ isDone }: TodoListProps) {
 
   // 지금 ToDo
   // 1. update -> isDone 바꿀꺼야!
-  const isDoneBtn = async (todo: TodoType) => {
+  const isDoneBtn = (todo: TodoType) => {
     updateMutate(todo);
   };
 
   // 2. delete -> todo 하나를 지울꺼야!
   const deletBtn = async (id: number) => {
-    deleteMutate(id);
+    // 여기서 부터 시작!
+    // 여기가 확인을 누르면 true! 그러면 삭제 해야겠죠?
+    if (await handleOpenModal("정말 삭제하시겠습니까?", "confirm")) {
+      setTimeout(() => {
+        deleteMutate(id);
+      }, 0);
+      return;
+    }
   };
 
   return (

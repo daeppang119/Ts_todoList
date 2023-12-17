@@ -26,10 +26,6 @@ export default function Form() {
         isDone: false,
       };
       mutate(newTodo);
-      // 함수로만들면 try catch부분 안써도 될거당..!!
-      // await axios.post(`${process.env.REACT_APP_JSON_SERVER}/todos`, newTodo);
-
-      // dispatch(postTodo(newTodo));
 
       setTitle("");
       setContents("");

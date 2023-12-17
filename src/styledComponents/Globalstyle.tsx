@@ -33,6 +33,14 @@ img {
   height: 100%;
   vertical-align: top;
 }
+
+#root{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    position: relative;
+}
+
 `;
 
 export default GlobalStyle;
